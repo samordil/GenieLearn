@@ -9,17 +9,13 @@ using PlotlyBase
 
 const data = CSV.read("data/BostonHousing.csv", DataFrame, missingstring="NA") |> DataFrame
 
-# Gerate some data
-x = 1:10
-y = rand(10)
-
 @app begin
 	# scatter Plot
 	@out scatter_trace = [scatter(
 		x = data[:,"rm"],
 		y = data[:, "medv"],
 		mode = "markers",
-		maker=attr(
+		marker=attr(
 			size = 10,
 			color = "rgba(255, 182, 193, .9)"
 		),
@@ -50,6 +46,12 @@ y = rand(10)
 	# Box plot layout
 	@out box_layout = PlotlyBase.Layout(
 		yaxis_title = "MEDV",
+	)
+
+	# Datatable
+	@out housing_data = DataTable(data)
+	@out pagination = DataTablePagination(
+		rows_per_page = 10
 	)
 
 end
